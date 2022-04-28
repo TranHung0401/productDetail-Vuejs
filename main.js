@@ -6,8 +6,8 @@ var vueInstance = new Vue({
         target: '_blank',
         price: 20000,
         sale: 0.1,
-        selectedProduct: 2,
-        cardNumber: 1,
+        selectedProduct: 0,
+        cartNumber: 1,
         listProductDetail: [
             {
                 image: './images/red.jpg',
@@ -36,7 +36,21 @@ var vueInstance = new Vue({
         <p><strong><span style="background-color:#8e44ad">fhsdjkfhsk&nbsp; hsdjkfk&nbsp;</span></strong></p>`
     },
     methods: {
-
+        handleClick(index) {
+            this.selectedProduct = index
+        },
+        classActive(index) {
+            return {
+                active: this.selectedProduct = index
+            }
+        },
+        handleAddToCart() {
+            if (this.cartNumber + 1 > this.getProduct.quantity) {
+                alert("Số lượng không đủ");
+            } else {
+                this.cartNumber = this.cartNumber + 1;
+            }
+        }
 
     },
     computed: {
@@ -44,6 +58,14 @@ var vueInstance = new Vue({
             var number = this.price;
             return new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'VND' }).format(number);
         },
+        formatFinalPrice() {
+            var number = this.price - this.sale * this.price;
+            return new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'VND' }).format(number);
+        },
+        getProduct() {
+            var index = this.selectedProduct;
+            return this.listProductDetail[index]
+        }
 
     }
 });
